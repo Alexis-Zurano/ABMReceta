@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "ABMPedido",
+			"path": "../../../../../ABMPedido"
+		},
+		{
+			"name": "src",
+			"path": "../../.."
+		}
+	],
+	"settings": {}
+}
