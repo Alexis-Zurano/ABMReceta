@@ -18,7 +18,7 @@ export const formularioReceta = () =>{
     } 
 
     const manejarEnvio = (e: { preventDefault: () => void; }) =>{
-        const url = 'https://empresaurios-api.onrender.com/api/v1/productos/receta';
+        const url = 'http://localhost:8080/api/v1/productos/receta';
         e.preventDefault();
         axios.post(url,datosFormulario).then(response=>{
             console.log(response.data); 

@@ -2,22 +2,22 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import * as React from 'react';
 
-import Persona from '../../../types/persona';
+import Receta from '../../types/receta';
 
-type DeletePersonaModalProps = {
+type DeleteRecetaModalProps = {
   onDelete: () => void;
   onHide: () => void;
-  persona: Persona | null;
+  receta: Receta | null;
   show: boolean;
 };
 
 
-const DeletePersonaModal: React.FC<DeletePersonaModalProps> = ({ onDelete, onHide, persona, show }) => (
+const DeleteRecetaModal: React.FC<DeleteRecetaModalProps> = ({ onDelete, onHide, receta, show }) => (
   <Modal show={show} onHide={onHide}>
     <Modal.Header closeButton>
-      <Modal.Title>Eliminar Persona</Modal.Title>
+      <Modal.Title>Eliminar Receta</Modal.Title>
     </Modal.Header>
-    <Modal.Body>Está seguro que quiere eliminar la siguiente persona: <strong>{persona?.nombre}</strong> <strong>{persona?.apellido}</strong>?</Modal.Body>
+    <Modal.Body>Está seguro que quiere eliminar la siguiente receta: <strong>{receta?.nombreReceta}</strong>?</Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={onHide}>
         Cerrar
@@ -29,4 +29,4 @@ const DeletePersonaModal: React.FC<DeletePersonaModalProps> = ({ onDelete, onHid
   </Modal>
 );
 
-export default DeletePersonaModal;
+export default DeleteRecetaModal;

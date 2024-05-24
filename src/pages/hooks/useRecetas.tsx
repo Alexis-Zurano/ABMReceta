@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import DataLayer from '../../../services/recetaService';
-import Receta from "../../../types/receta";
+import DataLayer from '../../services/recetaService';
+import Receta from "../../types/receta";
 
 type UseRecetaState = {
   data: Receta[];

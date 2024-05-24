@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import DataLayer from '../../../services/data-layer';
-import Persona from "../../../types/persona";
+import DataLayer from '../../services/data-layer';
+import Persona from "../../types/persona";
 
 type UsePersonasState = {
   data: Persona[];

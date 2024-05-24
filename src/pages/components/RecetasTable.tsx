@@ -4,30 +4,29 @@ import * as React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Table from 'react-bootstrap/Table';
 
-import Persona from "../../../types/persona";
-import DataLayer from '../../../services/data-layer';
+import Receta from "../../types/receta";
+import DataLayer from '../../services/recetaService';
 
-const DeletePersonaModal = React.lazy(() => import('./DeletePersonaModal'));
-const SavePersonaModal = React.lazy(() => import('./SavePersonaModal'));
+const DeleteRecetaModal = React.lazy(() => import('./DeleteRecetaModal'));
+const SaveRecetaModal = React.lazy(() => import('./SaveRecetaModal'));
 
-type PersonasTableProps = {
-  personas: Persona[];
+type RecetasTableProps = {
+  recetas: Receta[];
 };
 
-const emptyPersona: Persona = {
-  nombre: '',
-  apellido: '',
-  id: 0,
-  email: '',
-  telefono: 0,
+const emptyReceta: Receta = {
+    id: 0,
+    nombreReceta: '',
+    descripcionReceta: '',
+    tiempoPreparacion: 0
 };
 
-const PersonasTable: React.FC<PersonasTableProps> = ({ personas }) => {
+const RecetasTable: React.FC<RecetasTableProps> = ({ recetas }) => {
   // State
   const [error, setError] = React.useState<any>(null);
-  const [listedPersonas, setListedPersonas] = React.useState<Persona[]>(personas);
+  const [listedRecetas, setListedRecetas] = React.useState<Receta[]>(recetas);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [selectedPersona, setSelectedPersona] = React.useState<Persona | null>(null);
+  const [selectedReceta, setSelectedReceta] = React.useState<Receta | null>(null);
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = React.useState<boolean>(false);
 
@@ -35,46 +34,46 @@ const PersonasTable: React.FC<PersonasTableProps> = ({ personas }) => {
   const onCloseDeleteModal = React.useCallback(() => setShowDeleteModal(false), [setShowDeleteModal]);
   const onCloseSaveModal = React.useCallback(() => setShowSaveModal(false), [setShowSaveModal]);
   const onDelete = React.useCallback(() => {
-    if (selectedPersona) {
+    if (selectedReceta) {
       setShowDeleteModal(false);
       setLoading(true);
-      DataLayer.delete.persona(selectedPersona.id!)
-        .then(() => setListedPersonas((prevState: Persona[]) => prevState.filter((item: Persona) => item.id !== selectedPersona.id)))
+      DataLayer.delete.receta(selectedReceta.id!)
+        .then(() => setListedRecetas((prevState: Receta[]) => prevState.filter((item: Receta) => item.id !== selectedReceta.id)))
         .catch((error: any) => setError(error))
         .finally(() => setLoading(false));
     }
-  }, [selectedPersona, setShowDeleteModal, setListedPersonas, setLoading]);
-  const onSave = React.useCallback((p: Persona) => {
-    if (selectedPersona) {
+  }, [selectedReceta, setShowDeleteModal, setListedRecetas, setLoading]);
+  const onSave = React.useCallback((p: Receta) => {
+    if (selectedReceta) {
       setShowSaveModal(false);
       setLoading(true);
       if (p.id) {
-        DataLayer.update.persona(p)
-          .then((editedPersona: Persona) => setListedPersonas((prevState: Persona[]) => prevState.map((item: Persona) => item.id === editedPersona.id ? editedPersona : item)))
+        DataLayer.update.receta(p)
+          .then((editedReceta: Receta) => setListedRecetas((prevState: Receta[]) => prevState.map((item: Receta) => item.id === editedReceta.id ? editedReceta : item)))
           .catch((error: any) => setError(error))
           .finally(() => setLoading(false));
       } else {
         // Delete id property since it is a create action
         delete p.id;
 
-        DataLayer.create.persona(p)
-          .then((createdPersona: Persona) => {
-            setListedPersonas((prevState: Persona[]) => [...prevState, createdPersona]);
+        DataLayer.create.receta(p)
+          .then((createdReceta: Receta) => {
+            setListedRecetas((prevState: Receta[]) => [...prevState, createdReceta]);
           })
           .catch((error: any) => setError(error))
           .finally(() => setLoading(false));
       }
     }
-  }, [selectedPersona, setShowSaveModal, setListedPersonas, setLoading]);
-  const onShowDeleteModal = React.useCallback((p: Persona) => {
-    setSelectedPersona(p);
+  }, [selectedReceta, setShowSaveModal, setListedRecetas, setLoading]);
+  const onShowDeleteModal = React.useCallback((p: Receta) => {
+    setSelectedReceta(p);
     setShowDeleteModal(true);
-  }, [setSelectedPersona, setShowDeleteModal]);
-  const onShowSaveModal = React.useCallback((p?: Persona) => {
-    setSelectedPersona(p ?? emptyPersona);
+  }, [setSelectedReceta, setShowDeleteModal]);
+  const onShowSaveModal = React.useCallback((p?: Receta) => {
+    setSelectedReceta(p ?? emptyReceta);
     setShowSaveModal(true);
-  }, [setSelectedPersona, setShowSaveModal])
-
+  }, [setSelectedReceta, setShowSaveModal])
+  
   // Render
   if (error) {
     return (
@@ -95,27 +94,25 @@ const PersonasTable: React.FC<PersonasTableProps> = ({ personas }) => {
           )
           : (
             <>
-              <Button onClick={() => onShowSaveModal()} style={{ float: 'left',  marginTop: '70px', marginBottom: '10px' }} variant="primary">Crear Persona</Button>
+              <Button onClick={() => onShowSaveModal()} style={{ float: 'left',  marginTop: '70px', marginBottom: '10px' }} variant="primary">Crear Receta</Button>
               <Table striped bordered hover className="table">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Telefono</th>
-                    <th>E-mail</th>
+                    <th>Nombre receta</th>
+                    <th>Descripcion receta</th>
+                    <th>Tiempo de preparacion</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    listedPersonas.map((p: Persona) => (
+                    listedRecetas.map((p: Receta) => (
                       <tr key={p.id}>
                         <td width='2%'>{p.id}</td>
-                        <td width='23%'>{p.nombre}</td>
-                        <td width='45%'>{p.apellido}</td>
-                        <td width='10%'>{p.telefono}</td>
-                        <td width='5%'>{p.email}</td>
+                        <td width='25%'>{p.nombreReceta}</td>
+                        <td width='55%'>{p.descripcionReceta}</td>
+                        <td width='3%'>{p.tiempoPreparacion}</td>
                         <td width='10%'>
                           <Button onClick={() => onShowSaveModal(p)} variant="link" className="table-btn-editar">Editar</Button>
                           <Button onClick={() => onShowDeleteModal(p)} variant="link" className="table-btn-eliminar">Eliminar</Button>
@@ -128,20 +125,20 @@ const PersonasTable: React.FC<PersonasTableProps> = ({ personas }) => {
             </>
           )
       }
-      <DeletePersonaModal
+      <DeleteRecetaModal
         onDelete={onDelete}
         onHide={onCloseDeleteModal}
-        persona={selectedPersona}
+        receta={selectedReceta}
         show={showDeleteModal}
       />
-      <SavePersonaModal
+      <SaveRecetaModal
         onHide={onCloseSaveModal}
         onSave={onSave}
-        persona={selectedPersona}
+        receta={selectedReceta}
         show={showSaveModal}
       />
     </React.Suspense>
   );
 };
 
-export default PersonasTable
+export default RecetasTable

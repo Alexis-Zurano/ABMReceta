@@ -1,6 +1,6 @@
 import Receta from "../types/receta";
 
-const API_BASE_URL: string = 'https://empresaurios-api.onrender.com/api/v1/productos/receta';
+const API_BASE_URL: string = 'http://localhost:8080//api/v1/productos/receta';
 
 const fetchApiCall = async (method: 'GET' | 'POST' | 'PUT' | 'DELETE', id?: number, payload?: Receta): Promise<any> => {
   const options: any = { headers: { 'Content-Type': 'application/json' }, method };

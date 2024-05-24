@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import * as React from 'react';
 import Row from 'react-bootstrap/Row';
 
-import Persona from '../../../types/persona';
+import Persona from '../../types/persona';
 
 type SavePersonaModalProps = {
   onHide: () => void;

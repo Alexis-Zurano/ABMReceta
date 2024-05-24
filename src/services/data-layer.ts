@@ -1,6 +1,6 @@
 import Persona from "../types/persona";
 
-const API_BASE_URL: string = 'https://empresaurios-api.onrender.com/api/v1/personas';
+const API_BASE_URL: string = 'http://localhost:8080/api/v1/personas';
 
 const fetchApiCall = async (method: 'GET' | 'POST' | 'PUT' | 'DELETE', id?: number, payload?: Persona): Promise<any> => {
   const options: any = { headers: { 'Content-Type': 'application/json' }, method };

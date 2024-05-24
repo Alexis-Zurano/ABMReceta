@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import * as React from 'react';
 import Row from 'react-bootstrap/Row';
 
-import Receta from '../../../types/receta';
+import Receta from '../../types/receta';
 
 type SaveRecetaModalProps = {
   onHide: () => void;
